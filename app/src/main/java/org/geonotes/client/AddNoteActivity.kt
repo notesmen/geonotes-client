@@ -1,4 +1,4 @@
-package com.example.geonotes
+package org.geonotes.client
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

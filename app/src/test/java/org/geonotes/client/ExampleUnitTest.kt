@@ -1,4 +1,4 @@
-package com.example.geonotes
+package org.geonotes.client
 
 import org.junit.Test
 
