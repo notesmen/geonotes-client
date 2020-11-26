@@ -1,6 +1,6 @@
 package org.geonotes.client.model
 
-import java.util.*
+import java.util.Date
 
 import androidx.room.*
 
@@ -8,7 +8,7 @@ import androidx.room.*
 @Entity
 data class NoteBase(
     @PrimaryKey(autoGenerate = true)
-    val noteId: String,
+    val noteId: Long,
     val title: String,
     val text: String,
     val lastChangeTime: Date
@@ -17,14 +17,14 @@ data class NoteBase(
 @Entity
 data class Tag(
     @PrimaryKey(autoGenerate = true)
-    val tagId: String,
+    val tagId: Long,
     val name: String
 )
 
 @Entity(primaryKeys = ["noteId", "tagId"])
 data class NoteBaseTagCrossRef(
-    val noteId: String,
-    val tagId: String
+    val noteId: Long,
+    val tagId: Long
 )
 
 @Entity
@@ -42,6 +42,6 @@ data class Note(
 
 @Entity
 data class NoteDescription(
-    val noteId: String,
+    val noteId: Long,
     val lastChangeTime: Date
 )

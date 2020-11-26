@@ -16,8 +16,8 @@ interface NoteDao {
 
     @Transaction
     @Query("SELECT * FROM NoteBase")
-    suspend fun loadNotes(): PagingSource<Int, Note>
+    fun loadNotes(): PagingSource<Int, Note>
 
     @Query("SELECT noteId, lastChangeTime FROM NoteBase")
-    suspend fun loadNoteDescriptions(): LiveData<List<NoteDescription>>
+    fun loadNoteDescriptions(): LiveData<List<NoteDescription>>
 }
