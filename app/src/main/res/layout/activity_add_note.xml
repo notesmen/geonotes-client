@@ -11,8 +11,7 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:hint="@string/title"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +22,6 @@
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_marginStart="52dp"
-        android:layout_marginLeft="52dp"
         android:layout_marginTop="12dp"
         android:hint="@string/description"
         android:inputType="textMultiLine"
@@ -39,5 +37,15 @@
         app:layout_constraintEnd_toEndOf="@+id/description_EditText"
         app:layout_constraintStart_toStartOf="@+id/description_EditText"
         app:layout_constraintTop_toBottomOf="@+id/description_EditText" />
+
+    <com.here.sdk.mapviewlite.MapViewLite
+        android:id="@+id/map_view"
+        android:layout_width="300dp"
+        android:layout_height="327dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.594"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveNote" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,13 @@
 package org.geonotes.client
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.here.sdk.core.GeoCoordinates
+import com.here.sdk.mapviewlite.MapStyle
+import com.here.sdk.mapviewlite.MapViewLite
+
 
 class MainActivity : AppCompatActivity() {
 
