@@ -1,7 +1,5 @@
 package org.geonotes.client.model.entity
 
-import java.util.Date
-
 import androidx.room.*
 
 
@@ -11,5 +9,7 @@ data class NoteBase(
     val noteId: Long,
     val title: String,
     val text: String,
-    val lastChangeTime: Date
-)
+    val lastChangeTime: Long
+) {
+    constructor(title: String, text: String) : this(0, title, text, System.currentTimeMillis())
+}

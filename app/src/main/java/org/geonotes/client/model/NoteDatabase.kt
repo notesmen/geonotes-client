@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 
-import org.geonotes.client.model.converter.DateConverter
 import org.geonotes.client.model.dao.NoteBaseDao
 import org.geonotes.client.model.dao.NoteTagRefDao
 import org.geonotes.client.model.dao.TagDao
@@ -15,7 +13,6 @@ import org.geonotes.client.model.entity.NoteBaseTagCrossRef
 import org.geonotes.client.model.entity.Tag
 
 
-@TypeConverters(DateConverter::class)
 @Database(entities = [NoteBase::class, Tag::class, NoteBaseTagCrossRef::class], version = 1)
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteBaseDao
