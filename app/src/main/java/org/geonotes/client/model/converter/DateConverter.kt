@@ -1,4 +1,4 @@
-package org.geonotes.client.utils
+package org.geonotes.client.model.converter
 
 import java.util.Date
 
@@ -12,6 +12,6 @@ class DateConverter {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+        return date?.time
     }
 }
