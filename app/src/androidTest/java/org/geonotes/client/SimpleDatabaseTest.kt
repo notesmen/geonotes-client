@@ -81,7 +81,10 @@ class SimpleDatabaseTest {
         assertThat(anotherNote.noteBase.noteId, Matchers.greaterThan(0L))
 
         // ensure tags and notes were inserted and delivered to LiveData
-        assertThat(noteRepository.availableTags.value, Matchers.containsInAnyOrder(sampleTag, anotherTag))
+        assertThat(
+            noteRepository.availableTags.value,
+            Matchers.containsInAnyOrder(sampleTag, anotherTag)
+        )
         assertThat(noteRepository.notes.value, Matchers.contains(anotherNote, sampleNote))
     }
 }

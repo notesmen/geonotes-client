@@ -55,6 +55,6 @@ class NoteRepository constructor(
     private fun loadTags(): LiveData<List<Tag>> = tagDao.loadTags()
 
     companion object {
-        private val TAG = this.javaClass.name
+        private val TAG = this::class.simpleName
     }
 }
