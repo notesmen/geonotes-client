@@ -12,7 +12,7 @@ import org.geonotes.client.model.entity.Tag
 @Dao
 interface TagDao {
     @Insert(onConflict = IGNORE)
-    suspend fun save(tag: Tag)
+    suspend fun save(tag: Tag): Long
 
     @Query("SELECT * from Tag")
     fun loadTags(): LiveData<List<Tag>>

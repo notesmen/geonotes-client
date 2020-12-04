@@ -6,10 +6,10 @@ import androidx.room.*
 @Entity(indices = [(Index(value = ["noteId"], unique = true))])
 data class NoteBase(
     @PrimaryKey(autoGenerate = true)
-    val noteId: Long,
+    var noteId: Long,
     val title: String,
     val text: String,
     val lastChangeTime: Long
 ) {
-    constructor(title: String, text: String) : this(0, title, text, System.currentTimeMillis())
+    constructor(title: String, text: String) : this(0, title, text, System.nanoTime())
 }

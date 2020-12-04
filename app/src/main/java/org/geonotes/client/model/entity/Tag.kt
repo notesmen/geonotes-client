@@ -6,7 +6,7 @@ import androidx.room.*
 @Entity
 data class Tag(
     @PrimaryKey(autoGenerate = true)
-    val tagId: Long,
+    var tagId: Long,
     val name: String
 ) {
     constructor(name: String): this(0, name)

@@ -1,14 +1,18 @@
 package org.geonotes.client.viewmodel
 
+import kotlinx.coroutines.launch
+
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
+import androidx.paging.PagedList
 
 import org.geonotes.client.App
 import org.geonotes.client.model.NoteDatabase
 import org.geonotes.client.model.NoteRepository
 import org.geonotes.client.model.entity.Note
+
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private val noteRepository: NoteRepository
@@ -28,5 +32,5 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         noteRepository.addNote(note)
     }
 
-    fun getNotes() = noteRepository.notes
+    fun getNotes(): LiveData<PagedList<Note>> = noteRepository.notes
 }

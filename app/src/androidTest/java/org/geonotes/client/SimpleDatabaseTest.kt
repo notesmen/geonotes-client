@@ -2,18 +2,18 @@ package org.geonotes.client
 
 import java.io.IOException
 import kotlin.jvm.Throws
+import kotlinx.coroutines.*
 
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 
 import org.geonotes.client.model.NoteDatabase
 import org.geonotes.client.model.NoteRepository
@@ -39,6 +39,12 @@ class SimpleDatabaseTest {
             database.tagDao(),
             database.noteTagRefDao()
         )
+        runBlocking {
+            withContext(Dispatchers.Main) {
+                noteRepository.availableTags.observeForever { }
+                noteRepository.notes.observeForever { }
+            }
+        }
     }
 
     @After
@@ -58,11 +64,23 @@ class SimpleDatabaseTest {
         val sampleNote = Note(sampleNoteBase, listOf(sampleTag, anotherTag))
         val anotherNote = Note(anotherNoteBase, listOf(anotherTag))
 
-        runBlocking {
+        GlobalScope.launch {
             noteRepository.addNote(sampleNote)
             noteRepository.addNote(anotherNote)
         }
 
+        // wait for live data update
+        runBlocking {
+            delay(1000L);
+        }
+
+        // ensure tagId and noteId were generated
+        assertThat(sampleTag.tagId, Matchers.greaterThan(0L))
+        assertThat(anotherTag.tagId, Matchers.greaterThan(0L))
+        assertThat(sampleNote.noteBase.noteId, Matchers.greaterThan(0L))
+        assertThat(anotherNote.noteBase.noteId, Matchers.greaterThan(0L))
+
+        // ensure tags and notes were inserted and delivered to LiveData
         assertThat(noteRepository.availableTags.value, Matchers.containsInAnyOrder(sampleTag, anotherTag))
         assertThat(noteRepository.notes.value, Matchers.contains(anotherNote, sampleNote))
     }

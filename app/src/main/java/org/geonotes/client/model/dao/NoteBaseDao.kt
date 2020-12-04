@@ -13,7 +13,7 @@ import org.geonotes.client.model.entity.NoteDescription
 @Dao
 interface NoteBaseDao {
     @Insert(onConflict = REPLACE)
-    suspend fun save(noteBase: NoteBase)
+    suspend fun save(noteBase: NoteBase): Long
 
     @Query("SELECT noteId, lastChangeTime FROM NoteBase")
     fun loadNoteDescriptions(): LiveData<List<NoteDescription>>
