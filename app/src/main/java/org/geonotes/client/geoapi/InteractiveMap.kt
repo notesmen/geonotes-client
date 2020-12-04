@@ -10,11 +10,10 @@ import com.here.sdk.mapview.MapView
 import com.here.sdk.search.SearchEngine
 
 
-class InteractiveMap(map: MapView) {
+class InteractiveMap(map: MapView, coordinates: GeoCoordinates) {
     private var mapView: MapView = map
-    private var searchEngine: SearchEngine = SearchEngine()
     private lateinit var mapImage: MapImage
-    private lateinit var currentCoordinates: GeoCoordinates
+    private var currentCoordinates: GeoCoordinates = coordinates
     private var currentMarker: MapMarker? = null
 
     private fun setTapHandler() {
@@ -24,17 +23,20 @@ class InteractiveMap(map: MapView) {
             if (currentMarker != null) {
                 mapView.mapScene.removeMapMarker(currentMarker!!)
             }
-            val anchor2D = Anchor2D(0.5, 1.0)
-            val mapMarker = MapMarker(currentCoordinates, mapImage, anchor2D)
-            mapView.mapScene.addMapMarker(mapMarker)
-            currentMarker = mapMarker
-
+            setMarker(currentCoordinates)
             setCameraPosition(currentCoordinates)
         }
     }
 
     fun setCameraPosition(coordinates: GeoCoordinates) {
         mapView.camera.lookAt(coordinates)
+    }
+
+    fun setMarker(coordinates: GeoCoordinates) {
+        val anchor2D = Anchor2D(0.5, 1.0)
+        val mapMarker = MapMarker(currentCoordinates, mapImage, anchor2D)
+        mapView.mapScene.addMapMarker(mapMarker)
+        currentMarker = mapMarker
     }
 
     fun setMapImage(image: MapImage) {
@@ -46,10 +48,11 @@ class InteractiveMap(map: MapView) {
             MapScheme.NORMAL_DAY
         ) { errorCode ->
             if (errorCode == null) {
-                val distanceInMeters = (1000 * 10).toDouble()
+                val distanceInMeters = (100 * 1).toDouble()
                 mapView.camera.lookAt(
-                    GeoCoordinates(52.530932, 13.384915), distanceInMeters
+                    currentCoordinates, distanceInMeters
                 )
+                setMarker(currentCoordinates)
             }
         }
         setTapHandler()

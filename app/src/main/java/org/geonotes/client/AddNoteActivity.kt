@@ -1,6 +1,7 @@
 package org.geonotes.client
 
 import android.content.Intent
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -23,7 +24,10 @@ class AddNoteActivity : AppCompatActivity() {
         val mapView: MapView = findViewById(R.id.map_view)
         mapView.onCreate(savedInstanceState)
 
-        map = InteractiveMap(mapView)
+        val loc: Location = intent.extras?.get("EXTRA_LOCATION") as Location
+        val geo: GeoCoordinates = GeoCoordinates(loc.latitude, loc.longitude)
+
+        map = InteractiveMap(mapView, geo)
         map.loadMapScene()
         val mapImage: MapImage = MapImageFactory.fromResource(this.resources, R.drawable.ic_loc)
         map.setMapImage(mapImage)
