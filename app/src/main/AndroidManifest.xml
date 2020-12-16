@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.here.sdk.access_key_id" android:value=""/>
-        <meta-data android:name="com.here.sdk.access_key_secret" android:value=""/>
+        <meta-data android:name="com.here.sdk.access_key_id" android:value="n2OAnwGeqxzdvAE4KYjzAQ"/>
+        <meta-data android:name="com.here.sdk.access_key_secret" android:value="5UARWtTa6qRvuOEgpZO9g_bFUdLlXTskG8gVBbtK507vKppH-vTdyE3BlZ69XsTdaxu8jZKdnbjs3LX5YMUFPQ"/>
     </application>
 </manifest>
