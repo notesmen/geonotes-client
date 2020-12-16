@@ -1,4 +1,20 @@
-package org.geonotes.client
+/*
+ * Copyright (C) 2020 Arseniy Graur
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package me.argraur.notes
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -10,14 +26,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import org.geonotes.client.adapters.NotesAdapter
-import org.geonotes.client.entities.Note
-import org.geonotes.client.enums.Action
-import org.geonotes.client.helpers.NoteActionManager
-import org.geonotes.client.helpers.NoteManager
-import org.geonotes.client.observers.NoteObserver
-import org.geonotes.client.screens.EditNoteActivity
-
+import me.argraur.notes.adapters.NotesAdapter
+import me.argraur.notes.entities.Note
+import me.argraur.notes.enums.Action
+import me.argraur.notes.helpers.NoteActionManager
+import me.argraur.notes.helpers.NoteManager
+import me.argraur.notes.observers.NoteObserver
+import me.argraur.notes.screens.EditNoteActivity
 
 /**
  * MainActivity. Shows previews for already saved notes
@@ -57,9 +72,9 @@ class MainActivity : AppCompatActivity(), NoteObserver {
             Action.ADD -> Snackbar.make(findViewById(R.id.main_layout), getString(R.string.snackbar_add), Snackbar.LENGTH_SHORT).setBackgroundTint(getColor(R.color.snackBarBackground)).setTextColor(getColor(R.color.foreground)).setAnchorView(fab).show()
             Action.UNDO_DELETE -> Snackbar.make(findViewById(R.id.main_layout), getString(R.string.snackbar_restore), Snackbar.LENGTH_SHORT).setBackgroundTint(getColor(R.color.snackBarBackground)).setTextColor(getColor(R.color.foreground)).setAnchorView(fab).show()
             Action.DELETE -> Snackbar.make(findViewById(R.id.main_layout), getString(R.string.snackbar_delete), Snackbar.LENGTH_SHORT).setBackgroundTint(getColor(R.color.snackBarBackground)).setTextColor(getColor(R.color.foreground)).setAnchorView(fab)
-                    .setAction(getString(R.string.snackbar_undo)) {
-                        noteActionManager.callOnCurrent(Action.UNDO_DELETE)
-                    }.show()
+                .setAction(getString(R.string.snackbar_undo)) {
+                    noteActionManager.callOnCurrent(Action.UNDO_DELETE)
+                }.show()
         }
         nothingTextView.visibility = View.GONE
         notesView.visibility = View.GONE

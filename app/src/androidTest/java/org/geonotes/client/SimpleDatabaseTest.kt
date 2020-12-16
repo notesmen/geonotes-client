@@ -15,11 +15,11 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.geonotes.client.model.NoteDatabase
-import org.geonotes.client.model.NoteRepository
-import org.geonotes.client.model.entity.Note
-import org.geonotes.client.model.entity.NoteBase
-import org.geonotes.client.model.entity.Tag
+import org.geonotes.client.old.viewmodel.model.NoteDatabase
+import org.geonotes.client.old.viewmodel.model.NoteRepository
+import org.geonotes.client.old.viewmodel.model.entity.Note
+import org.geonotes.client.old.viewmodel.model.entity.NoteBase
+import org.geonotes.client.old.viewmodel.model.entity.Tag
 import org.hamcrest.Matchers
 
 
