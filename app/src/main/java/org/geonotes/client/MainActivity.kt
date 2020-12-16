@@ -8,31 +8,23 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagedList
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+
 import org.geonotes.client.adapters.NotesAdapter
-import org.geonotes.client.entities.Note
-import org.geonotes.client.enums.Action
-import org.geonotes.client.helpers.NoteActionManager
-import org.geonotes.client.helpers.NoteManager
-import org.geonotes.client.observers.NoteObserver
+import org.geonotes.client.model.entity.Note
 import org.geonotes.client.screens.EditNoteActivity
+import org.geonotes.client.viewmodel.NoteViewModel
 
 
-/**
- * MainActivity. Shows previews for already saved notes
- */
-class MainActivity : AppCompatActivity(), NoteObserver {
+class MainActivity : AppCompatActivity() {
     private lateinit var nothingTextView: TextView
     private lateinit var notesView: RecyclerView
     private lateinit var fab: FloatingActionButton
-    private val noteManager = NoteManager.getInstance(null)
-    private val noteActionManager = NoteActionManager.getInstance()
+    private lateinit var noteViewModel: NoteViewModel
 
-    /**
-     * Creates Notes view and defines addNote fab action
-     * @param savedInstanceState
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         window.allowEnterTransitionOverlap = true
         super.onCreate(savedInstanceState)
@@ -40,52 +32,26 @@ class MainActivity : AppCompatActivity(), NoteObserver {
         nothingTextView = findViewById(R.id.nothingTextView)
         notesView = findViewById(R.id.notesView)
         fab = findViewById(R.id.addNote)
-        noteManager.registerObserver(this)
         fab.setOnClickListener {
-            startActivity(Intent(this, EditNoteActivity::class.java),
-                    ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            val intent = Intent(this, EditNoteActivity::class.java)
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
         }
+
+        noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+        noteViewModel.getNotes().observe(this, this::onNotesChanged)
     }
 
-    /**
-     * Called when mNotes of NoteManager was changed
-     * Creates and updates RecyclerView
-     * @see NoteObserver
-     */
-    override fun onNotesChanged(mNotes: Array<Note>?) {
-        @Suppress("NON_EXHAUSTIVE_WHEN")
-        when (NoteActionManager.getInstance().currentAction()) {
-            Action.ADD -> Snackbar.make(findViewById(R.id.main_layout),
-                    getString(R.string.snackbar_add), Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(getColor(R.color.snackBarBackground))
-                    .setTextColor(getColor(R.color.foreground))
-                    .setAnchorView(fab)
-                    .show()
-            Action.UNDO_DELETE -> Snackbar.make(findViewById(R.id.main_layout),
-                    getString(R.string.snackbar_restore), Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(getColor(R.color.snackBarBackground))
-                    .setTextColor(getColor(R.color.foreground))
-                    .setAnchorView(fab)
-                    .show()
-            Action.DELETE -> Snackbar.make(findViewById(R.id.main_layout),
-                    getString(R.string.snackbar_delete), Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(getColor(R.color.snackBarBackground))
-                    .setTextColor(getColor(R.color.foreground))
-                    .setAnchorView(fab)
-                    .setAction(getString(R.string.snackbar_undo)) {
-                        noteActionManager.callOnCurrent(Action.UNDO_DELETE)
-                    }.show()
-        }
+    private fun onNotesChanged(mNotes: PagedList<Note>) {
         nothingTextView.visibility = View.GONE
         notesView.visibility = View.GONE
-        if (mNotes!!.isEmpty()) {
+        if (mNotes.isEmpty()) {
             nothingTextView.visibility = View.VISIBLE
         } else {
             notesView.visibility = View.VISIBLE
             findViewById<RecyclerView>(R.id.notesView).apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(this@MainActivity)
-                adapter = NotesAdapter(mNotes, this@MainActivity)
+                adapter = NotesAdapter(mNotes.toTypedArray(), this@MainActivity)
             }
         }
     }

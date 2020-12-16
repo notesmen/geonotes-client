@@ -12,55 +12,41 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 
 import com.google.android.material.card.MaterialCardView
-import org.geonotes.client.R
-import org.geonotes.client.entities.Note
+import com.google.gson.Gson
 
-import org.geonotes.client.enums.Action
-import org.geonotes.client.helpers.NoteActionManager
+import org.geonotes.client.R
+import org.geonotes.client.model.entity.Note
 import org.geonotes.client.screens.NoteActivity
 
-/**
- * RecyclerView adapter for notes
- * @param notes Notes that should be added into view
- * @param activity Activity where RecyclerView exists
- */
-class NotesAdapter(private val notes: Array<Note>, private val activity: Activity)
-    : RecyclerView.Adapter<NotesAdapter.NotesHolder>() {
-    /**
-     * RecyclerView holder for notes's cards
-     * @param cardView Card to be added into view holder
-     */
+
+class NotesAdapter(private val notes: Array<Note>, private val activity: Activity) :
+    RecyclerView.Adapter<NotesAdapter.NotesHolder>() {
+
     class NotesHolder(val cardView: MaterialCardView) : RecyclerView.ViewHolder(cardView)
 
-    /**
-     * @see RecyclerView.Adapter.onCreateViewHolder
-     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesHolder {
-        return NotesHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.note_card, parent, false) as MaterialCardView)
+        return NotesHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.note_card, parent, false) as MaterialCardView
+        )
     }
 
-    /**
-     * Adds data into cards based on given note's position
-     * @see RecyclerView.Adapter.onBindViewHolder
-     */
     override fun onBindViewHolder(holder: NotesHolder, position: Int) {
-        val title = notes[position].getTitle()
-        val value = notes[position].getValue()
+        val note: Note = notes[position]
 
-        ((holder.cardView[0] as ConstraintLayout)[0] as TextView).text = title
-        ((holder.cardView[0] as ConstraintLayout)[1] as TextView).text = value
+        ((holder.cardView[0] as ConstraintLayout)[0] as TextView).text = note.noteBase.title
+        ((holder.cardView[0] as ConstraintLayout)[1] as TextView).text = note.noteBase.text
 
-        holder.cardView.setCardBackgroundColor(notes[position].getColor())
+        holder.cardView.setCardBackgroundColor(notes[position].noteBase.color)
         holder.cardView.setOnClickListener {
-            NoteActionManager.getInstance().call(Action.SHOW, notes[position])
-            activity.startActivity(Intent(activity, NoteActivity::class.java),
-                    ActivityOptions.makeSceneTransitionAnimation(activity).toBundle())
+            activity.startActivity(
+                Intent(activity, NoteActivity::class.java).apply {
+                    putExtra("EXTRA_TARGET_NOTE", Gson().toJson(note))
+                },
+                ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()
+            )
         }
     }
 
-    /**
-     * @see RecyclerView.Adapter.getItemCount
-     */
     override fun getItemCount() = notes.size
 }

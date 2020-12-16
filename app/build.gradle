@@ -62,4 +62,6 @@ dependencies {
 
     def paging_version = "2.1.2"
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

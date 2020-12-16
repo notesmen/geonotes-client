@@ -1,15 +1,11 @@
 package org.geonotes.client
 
 import android.app.Application
-import org.geonotes.client.helpers.NoteManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
-/**
- * Creates NoteManager instance
- */
+
 @Suppress("Unused")
 class App : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        NoteManager.getInstance(this)
-    }
+    val applicationScope = CoroutineScope(SupervisorJob())
 }

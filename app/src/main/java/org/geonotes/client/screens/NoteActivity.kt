@@ -5,50 +5,43 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+
 import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
+
 import org.geonotes.client.R
-import org.geonotes.client.enums.Action
-import org.geonotes.client.helpers.NoteActionManager
-import org.geonotes.client.screens.EditNoteActivity.Companion.IS_EDIT
+import org.geonotes.client.model.entity.Note
+import org.geonotes.client.viewmodel.NoteViewModel
+
 
 class NoteActivity : AppCompatActivity() {
-    private val noteActionManager = NoteActionManager.getInstance()
-    private val note = noteActionManager.current()
+    private lateinit var noteViewModel: NoteViewModel
+    private lateinit var note: Note
 
-    /**
-     * Gets Note contents from intent extras
-     * And updates views according to those contents
-     * @see AppCompatActivity.onCreate
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         window.allowEnterTransitionOverlap = true
         super.onCreate(savedInstanceState)
+
+        noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+        note = Gson().fromJson(intent.getStringExtra("EXTRA_TARGET_NOTE"), Note::class.java)
+
         setContentView(R.layout.activity_note)
-        findViewById<TextView>(R.id.title_view).text = note.getTitle()
-        findViewById<TextView>(R.id.value_view).text = note.getValue()
-        findViewById<MaterialCardView>(R.id.note_cardview).setCardBackgroundColor(note.getColor())
+        findViewById<TextView>(R.id.title_view).text = note.noteBase.title
+        findViewById<TextView>(R.id.value_view).text = note.noteBase.text
+        findViewById<MaterialCardView>(R.id.note_cardview).setCardBackgroundColor(note.noteBase.color)
     }
 
-    /**
-     * Called by edit button.
-     * Starts EditNoteActivity with IS_EDIT set to true
-     * And passes all contents of the Note object
-     * @param view Button's view
-     */
     fun edit(@Suppress("UNUSED_PARAMETER") view: View) {
         startActivity(Intent(this, EditNoteActivity::class.java).apply {
-            putExtra(IS_EDIT, true)
+            putExtra("EXTRA_TARGET_NOTE", intent.getStringExtra("EXTRA_TARGET_NOTE"))
+            putExtra("EXTRA_IS_EDIT", true)
         })
         finish()
     }
 
-    /**
-     * Called by delete button.
-     * Deletes note using NOTE_TIME intent extra
-     * @param view Button's view
-     */
     fun delete(@Suppress("UNUSED_PARAMETER") view: View) {
-        noteActionManager.callOnCurrent(Action.DELETE)
+        //! TODO("Delete note") // noteViewModel.deleteNote();
         super.onBackPressed()
     }
 
@@ -57,10 +50,5 @@ class NoteActivity : AppCompatActivity() {
         finish()
     }
 
-    /**
-     * Called by back floating action button
-     * Finishes NoteActivity lifecycle
-     * @param view View where button lays
-     */
     fun back(@Suppress("UNUSED_PARAMETER") view: View) = super.onBackPressed()
 }
