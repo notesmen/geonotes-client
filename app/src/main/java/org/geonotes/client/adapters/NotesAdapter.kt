@@ -16,7 +16,7 @@ import com.google.gson.Gson
 
 import org.geonotes.client.R
 import org.geonotes.client.model.entity.Note
-import org.geonotes.client.screens.NoteActivity
+import org.geonotes.client.activities.NoteActivity
 
 
 class NotesAdapter(private val notes: Array<Note>, private val activity: Activity) :

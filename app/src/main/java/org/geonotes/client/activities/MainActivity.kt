@@ -1,4 +1,4 @@
-package org.geonotes.client
+package org.geonotes.client.activities
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -12,10 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.geonotes.client.R
 
 import org.geonotes.client.adapters.NotesAdapter
 import org.geonotes.client.model.entity.Note
-import org.geonotes.client.screens.EditNoteActivity
 import org.geonotes.client.viewmodel.NoteViewModel
 
 

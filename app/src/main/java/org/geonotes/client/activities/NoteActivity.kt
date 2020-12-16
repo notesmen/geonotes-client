@@ -1,4 +1,4 @@
-package org.geonotes.client.screens
+package org.geonotes.client.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -41,7 +41,7 @@ class NoteActivity : AppCompatActivity() {
     }
 
     fun delete(@Suppress("UNUSED_PARAMETER") view: View) {
-        //! TODO("Delete note") // noteViewModel.deleteNote();
+        noteViewModel.deleteNote(note);
         super.onBackPressed()
     }
 

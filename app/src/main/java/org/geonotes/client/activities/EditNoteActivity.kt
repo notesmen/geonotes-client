@@ -1,4 +1,4 @@
-package org.geonotes.client.screens
+package org.geonotes.client.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -74,7 +74,7 @@ class EditNoteActivity : AppCompatActivity() {
     }
 
     private fun update(note: Note) {
-//  TODO:        noteViewModel.updateNote(note)
+        noteViewModel.updateNote(note)
         super.onBackPressed()
     }
 
@@ -90,7 +90,7 @@ class EditNoteActivity : AppCompatActivity() {
         return true
     }
 
-    private fun delete(note: Note) = Unit // TODO: noteViewModel.deleteNote
+    private fun delete(note: Note) = noteViewModel.deleteNote(note)
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun setColor(view: View) {
