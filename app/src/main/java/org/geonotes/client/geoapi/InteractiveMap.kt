@@ -1,5 +1,9 @@
 package org.geonotes.client.geoapi
 
+import android.content.Context
+import android.location.Address
+import android.location.Geocoder
+import android.widget.TextView
 import com.here.sdk.core.Anchor2D
 import com.here.sdk.core.GeoCoordinates
 import com.here.sdk.gestures.TapListener
@@ -10,10 +14,11 @@ import com.here.sdk.mapview.MapView
 import com.here.sdk.search.SearchEngine
 
 
-class InteractiveMap(map: MapView, coordinates: GeoCoordinates) {
-    private var mapView: MapView = map
+class InteractiveMap(private val context: Context,
+                     private var mapView: MapView, private var currentCoordinates: GeoCoordinates,
+                     private var addressLabel: TextView
+) {
     private lateinit var mapImage: MapImage
-    private var currentCoordinates: GeoCoordinates = coordinates
     private var currentMarker: MapMarker? = null
 
     private fun setTapHandler() {
@@ -25,7 +30,14 @@ class InteractiveMap(map: MapView, coordinates: GeoCoordinates) {
             }
             setMarker(currentCoordinates)
             setCameraPosition(currentCoordinates)
+            addressLabel.text = getAddress().getAddressLine(0)
         }
+    }
+
+    fun getAddress(): Address {
+        val geocoder: Geocoder = Geocoder(context)
+        val addresses: List<Address> = geocoder.getFromLocation(currentCoordinates.latitude, currentCoordinates.longitude, 1)
+        return addresses[0]
     }
 
     fun setCameraPosition(coordinates: GeoCoordinates) {
