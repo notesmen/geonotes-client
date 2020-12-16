@@ -15,11 +15,11 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.geonotes.client.old.viewmodel.model.NoteDatabase
-import org.geonotes.client.old.viewmodel.model.NoteRepository
-import org.geonotes.client.old.viewmodel.model.entity.Note
-import org.geonotes.client.old.viewmodel.model.entity.NoteBase
-import org.geonotes.client.old.viewmodel.model.entity.Tag
+import org.geonotes.client.model.NoteDatabase
+import org.geonotes.client.model.NoteRepository
+import org.geonotes.client.model.entity.Note
+import org.geonotes.client.model.entity.NoteBase
+import org.geonotes.client.model.entity.Tag
 import org.hamcrest.Matchers
 
 
@@ -56,8 +56,8 @@ class SimpleDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun databaseTest() {
-        val sampleNoteBase = NoteBase("Example note #1", "some text here")
-        val anotherNoteBase = NoteBase("Example note #2", "another text here")
+        val sampleNoteBase = NoteBase("Example note #1", "some text here", 0)
+        val anotherNoteBase = NoteBase("Example note #2", "another text here", 0)
         val sampleTag = Tag("sample-tag")
         val anotherTag = Tag("another-tag")
 
@@ -71,7 +71,7 @@ class SimpleDatabaseTest {
 
         // wait for live data update
         runBlocking {
-            delay(1000L);
+            delay(1000L)
         }
 
         // ensure tagId and noteId were generated
