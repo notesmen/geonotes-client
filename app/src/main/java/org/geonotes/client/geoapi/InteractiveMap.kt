@@ -14,9 +14,11 @@ import com.here.sdk.mapview.MapView
 import com.here.sdk.search.SearchEngine
 
 
-class InteractiveMap(private val context: Context,
-                     private var mapView: MapView, private var currentCoordinates: GeoCoordinates,
-                     private var addressLabel: TextView
+class InteractiveMap(
+    private val context: Context,
+    private var mapView: MapView,
+    private var currentCoordinates: GeoCoordinates,
+    private var addressLabel: TextView
 ) {
     private lateinit var mapImage: MapImage
     private var currentMarker: MapMarker? = null
@@ -36,7 +38,8 @@ class InteractiveMap(private val context: Context,
 
     fun getAddress(): Address {
         val geocoder: Geocoder = Geocoder(context)
-        val addresses: List<Address> = geocoder.getFromLocation(currentCoordinates.latitude, currentCoordinates.longitude, 1)
+        val addresses: List<Address> =
+            geocoder.getFromLocation(currentCoordinates.latitude, currentCoordinates.longitude, 1)
         return addresses[0]
     }
 
@@ -46,7 +49,7 @@ class InteractiveMap(private val context: Context,
 
     fun setMarker(coordinates: GeoCoordinates) {
         val anchor2D = Anchor2D(0.5, 1.0)
-        val mapMarker = MapMarker(currentCoordinates, mapImage, anchor2D)
+        val mapMarker = MapMarker(coordinates, mapImage, anchor2D)
         mapView.mapScene.addMapMarker(mapMarker)
         currentMarker = mapMarker
     }
@@ -60,7 +63,7 @@ class InteractiveMap(private val context: Context,
             MapScheme.NORMAL_DAY
         ) { errorCode ->
             if (errorCode == null) {
-                val distanceInMeters = (100 * 1).toDouble()
+                val distanceInMeters = (100).toDouble()
                 mapView.camera.lookAt(
                     currentCoordinates, distanceInMeters
                 )

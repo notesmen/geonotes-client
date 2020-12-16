@@ -17,8 +17,8 @@ import org.geonotes.client.geoapi.InteractiveMap
 
 class AddNoteActivity : AppCompatActivity() {
 
-    private lateinit var saveNoteBtn : Button
-    private lateinit var map : InteractiveMap
+    private lateinit var saveNoteBtn: Button
+    private lateinit var map: InteractiveMap
     private lateinit var addressLabel: TextView
     private lateinit var mapView: MapView
 

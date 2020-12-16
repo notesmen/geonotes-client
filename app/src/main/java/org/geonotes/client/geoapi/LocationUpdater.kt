@@ -15,13 +15,13 @@ class LocationUpdater(private val context: Context) {
     private val DEFAULT_UPDATE_INTERVAL_IN_S: Long = 20
     private val FAST_UPDATE_INTERVAL_IN_S: Long = 5
     private var isActive: Boolean = false
-    private lateinit var locationProvider: FusedLocationProviderClient;
-    private lateinit var locationRequest: LocationRequest;
+    private lateinit var locationProvider: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
 
     private fun createLocationRequest() {
         locationRequest = LocationRequest()
-        locationRequest.interval = 1000 * DEFAULT_UPDATE_INTERVAL_IN_S
-        locationRequest.fastestInterval = 1000 * FAST_UPDATE_INTERVAL_IN_S
+        locationRequest.interval = DEFAULT_UPDATE_INTERVAL_IN_S * 1000
+        locationRequest.fastestInterval = FAST_UPDATE_INTERVAL_IN_S * 1000
         setBalancedPowerAccuracy()
     }
 

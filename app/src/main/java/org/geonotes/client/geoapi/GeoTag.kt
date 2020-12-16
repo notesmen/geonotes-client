@@ -1,4 +1,3 @@
 package org.geonotes.client.geoapi
 
-class GeoTag (public var latitude: Double, public var longitude: Double) {
-}
+class GeoTag (var latitude: Double, var longitude: Double)
