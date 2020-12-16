@@ -18,4 +18,8 @@ interface NoteTagRefDao {
     @Transaction
     @Query("SELECT * FROM NoteBase ORDER BY lastChangeTime DESC")
     fun loadNotes(): DataSource.Factory<Int, Note>
+
+    @Transaction
+    @Query("SELECT * FROM NoteBase WHERE noteId IN(:ids)")
+    fun loadNotesByIds(ids: LongArray): List<Note>
 }

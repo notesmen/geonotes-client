@@ -1,6 +1,5 @@
 package org.geonotes.client.model.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.*
@@ -16,5 +15,5 @@ interface NoteBaseDao {
     suspend fun save(noteBase: NoteBase): Long
 
     @Query("SELECT noteId, lastChangeTime FROM NoteBase")
-    fun loadNoteDescriptions(): LiveData<List<NoteDescription>>
+    fun loadNoteDescriptions(): List<NoteDescription>
 }

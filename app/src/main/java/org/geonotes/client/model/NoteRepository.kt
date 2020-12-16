@@ -11,10 +11,7 @@ import androidx.paging.toLiveData
 import org.geonotes.client.model.dao.NoteBaseDao
 import org.geonotes.client.model.dao.NoteTagRefDao
 import org.geonotes.client.model.dao.TagDao
-import org.geonotes.client.model.entity.Note
-import org.geonotes.client.model.entity.NoteBase
-import org.geonotes.client.model.entity.NoteBaseTagCrossRef
-import org.geonotes.client.model.entity.Tag
+import org.geonotes.client.model.entity.*
 
 
 class NoteRepository constructor(
@@ -22,8 +19,15 @@ class NoteRepository constructor(
     private val tagDao: TagDao,
     private val noteTagRefDao: NoteTagRefDao
 ) {
-    val notes = loadNotes()
-    val availableTags = loadTags()
+    constructor(database: NoteDatabase): this(database.noteDao(), database.tagDao(), database.noteTagRefDao())
+
+    val notes by lazy { loadNotes() }
+    val availableTags by lazy { loadTags() }
+    val noteDescriptions: List<NoteDescription>
+        get() = noteBaseDao.loadNoteDescriptions()
+
+    fun getNotesByIds(ids: LongArray): List<Note>
+        = noteTagRefDao.loadNotesByIds(ids)
 
     suspend fun addNote(note: Note) = withContext(Dispatchers.IO) {
         insertNoteBase(note.noteBase)
