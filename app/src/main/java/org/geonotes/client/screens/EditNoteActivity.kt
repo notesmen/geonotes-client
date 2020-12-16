@@ -32,11 +32,13 @@ class EditNoteActivity : AppCompatActivity() {
         window.allowEnterTransitionOverlap = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_note)
+
         titleInput = findViewById(R.id.title_input)
         valueInput = findViewById(R.id.value_input)
         textInputLayout = findViewById(R.id.textInputLayout)
         saveNoteFab = findViewById(R.id.saveNote)
         color = getColor(R.color.colorNote0)
+
         if (!intent.getBooleanExtra(IS_EDIT, false)) {
             saveNoteFab.setOnClickListener {
                 if (!checkTitle()) return@setOnClickListener

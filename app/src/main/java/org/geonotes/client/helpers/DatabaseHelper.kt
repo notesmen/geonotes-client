@@ -6,7 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
 import org.geonotes.client.entities.Note
 
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseHelper(context: Context)
+    : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         const val SQL_CREATE_ENTRIES = "CREATE TABLE ${Note.Companion.Entry.TABLE_NAME} (" +
                 "${BaseColumns._ID} INTEGER PRIMARY KEY, " +

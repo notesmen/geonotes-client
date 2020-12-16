@@ -24,7 +24,8 @@ import org.geonotes.client.screens.NoteActivity
  * @param notes Notes that should be added into view
  * @param activity Activity where RecyclerView exists
  */
-class NotesAdapter(private val notes: Array<Note>, private val activity: Activity) : RecyclerView.Adapter<NotesAdapter.NotesHolder>() {
+class NotesAdapter(private val notes: Array<Note>, private val activity: Activity)
+    : RecyclerView.Adapter<NotesAdapter.NotesHolder>() {
     /**
      * RecyclerView holder for notes's cards
      * @param cardView Card to be added into view holder
@@ -35,7 +36,8 @@ class NotesAdapter(private val notes: Array<Note>, private val activity: Activit
      * @see RecyclerView.Adapter.onCreateViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesHolder {
-        return NotesHolder(LayoutInflater.from(parent.context).inflate(R.layout.note_card, parent, false) as MaterialCardView)
+        return NotesHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.note_card, parent, false) as MaterialCardView)
     }
 
     /**
@@ -45,12 +47,15 @@ class NotesAdapter(private val notes: Array<Note>, private val activity: Activit
     override fun onBindViewHolder(holder: NotesHolder, position: Int) {
         val title = notes[position].getTitle()
         val value = notes[position].getValue()
+
         ((holder.cardView[0] as ConstraintLayout)[0] as TextView).text = title
         ((holder.cardView[0] as ConstraintLayout)[1] as TextView).text = value
+
         holder.cardView.setCardBackgroundColor(notes[position].getColor())
         holder.cardView.setOnClickListener {
             NoteActionManager.getInstance().call(Action.SHOW, notes[position])
-            activity.startActivity(Intent(activity, NoteActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(activity).toBundle())
+            activity.startActivity(Intent(activity, NoteActivity::class.java),
+                    ActivityOptions.makeSceneTransitionAnimation(activity).toBundle())
         }
     }
 

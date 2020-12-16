@@ -42,7 +42,8 @@ class MainActivity : AppCompatActivity(), NoteObserver {
         fab = findViewById(R.id.addNote)
         noteManager.registerObserver(this)
         fab.setOnClickListener {
-            startActivity(Intent(this, EditNoteActivity::class.java), ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+            startActivity(Intent(this, EditNoteActivity::class.java),
+                    ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
         }
     }
 
@@ -54,9 +55,23 @@ class MainActivity : AppCompatActivity(), NoteObserver {
     override fun onNotesChanged(mNotes: Array<Note>?) {
         @Suppress("NON_EXHAUSTIVE_WHEN")
         when (NoteActionManager.getInstance().currentAction()) {
-            Action.ADD -> Snackbar.make(findViewById(R.id.main_layout), getString(R.string.snackbar_add), Snackbar.LENGTH_SHORT).setBackgroundTint(getColor(R.color.snackBarBackground)).setTextColor(getColor(R.color.foreground)).setAnchorView(fab).show()
-            Action.UNDO_DELETE -> Snackbar.make(findViewById(R.id.main_layout), getString(R.string.snackbar_restore), Snackbar.LENGTH_SHORT).setBackgroundTint(getColor(R.color.snackBarBackground)).setTextColor(getColor(R.color.foreground)).setAnchorView(fab).show()
-            Action.DELETE -> Snackbar.make(findViewById(R.id.main_layout), getString(R.string.snackbar_delete), Snackbar.LENGTH_SHORT).setBackgroundTint(getColor(R.color.snackBarBackground)).setTextColor(getColor(R.color.foreground)).setAnchorView(fab)
+            Action.ADD -> Snackbar.make(findViewById(R.id.main_layout),
+                    getString(R.string.snackbar_add), Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(getColor(R.color.snackBarBackground))
+                    .setTextColor(getColor(R.color.foreground))
+                    .setAnchorView(fab)
+                    .show()
+            Action.UNDO_DELETE -> Snackbar.make(findViewById(R.id.main_layout),
+                    getString(R.string.snackbar_restore), Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(getColor(R.color.snackBarBackground))
+                    .setTextColor(getColor(R.color.foreground))
+                    .setAnchorView(fab)
+                    .show()
+            Action.DELETE -> Snackbar.make(findViewById(R.id.main_layout),
+                    getString(R.string.snackbar_delete), Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(getColor(R.color.snackBarBackground))
+                    .setTextColor(getColor(R.color.foreground))
+                    .setAnchorView(fab)
                     .setAction(getString(R.string.snackbar_undo)) {
                         noteActionManager.callOnCurrent(Action.UNDO_DELETE)
                     }.show()
