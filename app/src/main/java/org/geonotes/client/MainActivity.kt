@@ -4,18 +4,15 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.provider.Settings
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.here.sdk.core.engine.SDKOptions
 import org.geonotes.client.geoapi.LocationUpdater
 import org.geonotes.client.geoapi.PermissionDeniedException
 
@@ -33,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 super.onLocationResult(locationResult)
@@ -48,8 +46,11 @@ class MainActivity : AppCompatActivity() {
             locationListener.startLocationUpdates(locationCallback)
         } catch (e: PermissionDeniedException) {
             requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION),
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                ),
                 PERMISSION_REQUEST_CODE
             )
         }
@@ -83,4 +84,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }

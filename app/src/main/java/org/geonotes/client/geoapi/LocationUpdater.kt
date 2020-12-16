@@ -2,17 +2,13 @@ package org.geonotes.client.geoapi
 
 import android.Manifest
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
-import android.util.Log
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
 import com.google.android.gms.tasks.Task
 
 class LocationUpdater(private val context: Context) {
@@ -51,11 +47,14 @@ class LocationUpdater(private val context: Context) {
     }
 
     fun getLastKnownLocation(): Location? {
-        if (isActive) {
+        if (isActive && locationProvider.locationAvailability.isSuccessful) {
             checkPermission()
             return locationProvider.lastLocation.result
         }
-        return null
+        val fakeLocation: Location = Location(FusedLocationProviderClient.KEY_MOCK_LOCATION)
+        fakeLocation.latitude = 53.0
+        fakeLocation.longitude = 27.0
+        return fakeLocation
     }
 
     fun setHighAccuracy() {
