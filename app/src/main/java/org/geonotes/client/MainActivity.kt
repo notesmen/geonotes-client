@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.here.sdk.core.engine.SDKOptions
 import org.geonotes.client.geoapi.LocationUpdater
 import org.geonotes.client.geoapi.PermissionDeniedException
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private var currentLocation: Location? = null
     private val PERMISSION_REQUEST_CODE: Int = 1
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -47,7 +48,8 @@ class MainActivity : AppCompatActivity() {
             locationListener.startLocationUpdates(locationCallback)
         } catch (e: PermissionDeniedException) {
             requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION),
                 PERMISSION_REQUEST_CODE
             )
         }
