@@ -10,6 +10,10 @@ android:
     - android-24
     - sys-img-armeabi-v7a-android-24
     - extra-android-m2repository
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 
 before_script:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
