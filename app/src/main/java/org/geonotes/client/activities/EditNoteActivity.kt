@@ -1,8 +1,8 @@
 package org.geonotes.client.activities
 
 import android.annotation.SuppressLint
-import android.app.ActivityOptions
 import android.content.Intent
+import android.location.Address
 import android.location.Location
 import android.os.Bundle
 import android.view.View
@@ -14,8 +14,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
+import com.here.sdk.core.GeoCoordinates
 
 import org.geonotes.client.R
+import org.geonotes.client.model.entity.GeoTag
 import org.geonotes.client.model.entity.Note
 import org.geonotes.client.model.entity.NoteBase
 import org.geonotes.client.viewmodel.NoteViewModel
@@ -29,7 +31,8 @@ class EditNoteActivity : AppCompatActivity() {
     private lateinit var saveNoteFab: FloatingActionButton
     private lateinit var addLocation: FloatingActionButton
     private lateinit var noteViewModel: NoteViewModel
-
+    private lateinit var currentCoordinates: GeoCoordinates
+    private var currentAddress: String = " "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.allowEnterTransitionOverlap = true
@@ -42,11 +45,11 @@ class EditNoteActivity : AppCompatActivity() {
         saveNoteFab = findViewById(R.id.saveNote)
         addLocation = findViewById(R.id.addLocation)
         color = getColor(R.color.colorNote0)
-
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
 
         val loc: Location = intent.extras?.get("EXTRA_LOCATION") as Location
+        currentCoordinates = GeoCoordinates(loc.latitude, loc.longitude)
         addLocation.setOnClickListener {
             val intent = Intent(this, LocationActivity::class.java)
             intent.putExtra("EXTRA_LOCATION", loc)
@@ -60,19 +63,24 @@ class EditNoteActivity : AppCompatActivity() {
             }
         } else {
             val note = Gson().fromJson(intent.getStringExtra("EXTRA_TARGET_NOTE"), Note::class.java)
+            val tag: GeoTag =
+                GeoTag(note.noteBase.noteId, currentAddress, currentCoordinates.latitude, currentCoordinates.longitude)
+            note.geoTags = listOf(tag)
             color = note.noteBase.color
             findViewById<TextView>(R.id.new_note).setText(R.string.edit_note)
             titleInput.setText(note.noteBase.title)
             valueInput.setText(note.noteBase.text)
             saveNoteFab.setOnClickListener {
                 if (!validateTitle()) return@setOnClickListener
-                val newNote = Note(NoteBase(
-                    note.noteBase.noteId,
-                    titleInput.text.toString(),
-                    valueInput.text.toString(),
-                    color!!,
-                    System.nanoTime()
-                ), note.tags)
+                val newNote = Note(
+                    NoteBase(
+                        note.noteBase.noteId,
+                        titleInput.text.toString(),
+                        valueInput.text.toString(),
+                        color!!,
+                        System.nanoTime()
+                    ), note.geoTags
+                )
 
                 update(newNote)
             }
@@ -81,7 +89,9 @@ class EditNoteActivity : AppCompatActivity() {
 
 
     private fun save(title: String, text: String, color: Int) {
-        val note = Note(NoteBase(title, text, color), listOf())
+        val tag: GeoTag =
+            GeoTag(currentAddress, currentCoordinates.latitude, currentCoordinates.longitude)
+        val note = Note(NoteBase(title, text, color), listOf(tag))
         noteViewModel.addNote(note)
         super.onBackPressed()
     }
@@ -121,9 +131,13 @@ class EditNoteActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val coordinates: String? = data?.extras?.getString("EXTRA_LOCATION_STRING", "10.0 10.0")
+        val coordinatesString: String? = data?.extras?.getString("EXTRA_LOCATION_STRING", null)
         val address: String? = data?.extras?.getString("EXTRA_ADDRESS_STRING", " ")
-        // TODO
+        val coordinates: List<String> = coordinatesString?.split(' ') ?: listOf("10.0, 10.0")
+        if (address != null) {
+            currentAddress = address
+        }
+        currentCoordinates = GeoCoordinates(coordinates[0].toDouble(), coordinates[1].toDouble())
     }
 
     fun back(@Suppress("UNUSED_PARAMETER") view: View) = super.onBackPressed()

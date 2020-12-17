@@ -10,10 +10,10 @@ import org.geonotes.client.model.dao.NoteTagRefDao
 import org.geonotes.client.model.dao.TagDao
 import org.geonotes.client.model.entity.NoteBase
 import org.geonotes.client.model.entity.NoteBaseTagCrossRef
-import org.geonotes.client.model.entity.Tag
+import org.geonotes.client.model.entity.GeoTag
 
 
-@Database(entities = [NoteBase::class, Tag::class, NoteBaseTagCrossRef::class], version = 1)
+@Database(entities = [NoteBase::class, GeoTag::class, NoteBaseTagCrossRef::class], version = 2)
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteBaseDao
     abstract fun tagDao(): TagDao
@@ -29,7 +29,7 @@ abstract class NoteDatabase : RoomDatabase() {
                     context.applicationContext,
                     NoteDatabase::class.java,
                     "NoteDatabase"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

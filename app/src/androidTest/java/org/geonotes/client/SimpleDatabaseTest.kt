@@ -19,7 +19,7 @@ import org.geonotes.client.model.NoteDatabase
 import org.geonotes.client.model.NoteRepository
 import org.geonotes.client.model.entity.Note
 import org.geonotes.client.model.entity.NoteBase
-import org.geonotes.client.model.entity.Tag
+import org.geonotes.client.model.entity.GeoTag
 import org.hamcrest.Matchers
 
 
@@ -58,8 +58,8 @@ class SimpleDatabaseTest {
     fun databaseTest() {
         val sampleNoteBase = NoteBase("Example note #1", "some text here", 0)
         val anotherNoteBase = NoteBase("Example note #2", "another text here", 0)
-        val sampleTag = Tag("sample-tag")
-        val anotherTag = Tag("another-tag")
+        val sampleTag = GeoTag("sample-tag")
+        val anotherTag = GeoTag("another-tag")
 
         val sampleNote = Note(sampleNoteBase, listOf(sampleTag, anotherTag))
         val anotherNote = Note(anotherNoteBase, listOf(anotherTag))

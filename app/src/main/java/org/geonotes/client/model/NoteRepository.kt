@@ -14,7 +14,7 @@ import org.geonotes.client.model.dao.TagDao
 import org.geonotes.client.model.entity.Note
 import org.geonotes.client.model.entity.NoteBase
 import org.geonotes.client.model.entity.NoteBaseTagCrossRef
-import org.geonotes.client.model.entity.Tag
+import org.geonotes.client.model.entity.GeoTag
 
 
 class NoteRepository constructor(
@@ -27,7 +27,7 @@ class NoteRepository constructor(
 
     suspend fun addNote(note: Note) = withContext(Dispatchers.IO) {
         insertNoteBase(note.noteBase)
-        for (tag in note.tags) {
+        for (tag in note.geoTags) {
             insertTag(tag)
             Log.d(TAG, "Add cross ref between ${note.noteBase.noteId} and ${tag.tagId}")
             noteTagRefDao.save(NoteBaseTagCrossRef(note.noteBase.noteId, tag.tagId))
@@ -37,7 +37,7 @@ class NoteRepository constructor(
     suspend fun updateNote(note: Note) = withContext(Dispatchers.IO) {
         noteTagRefDao.deleteNoteTagRefs(note.noteBase.noteId)
         noteBaseDao.update(note.noteBase)
-        for (tag in note.tags) {
+        for (tag in note.geoTags) {
             insertTag(tag)
             noteTagRefDao.save(NoteBaseTagCrossRef(note.noteBase.noteId, tag.tagId))
         }
@@ -55,18 +55,18 @@ class NoteRepository constructor(
         }
     }
 
-    private suspend fun insertTag(tag: Tag) {
-        Log.d(TAG, "Add new tag $tag")
-        val tagId = tagDao.save(tag)
+    private suspend fun insertTag(geoTag: GeoTag) {
+        Log.d(TAG, "Add new tag $geoTag")
+        val tagId = tagDao.save(geoTag)
         if (tagId != -1L) {
-            tag.tagId = tagId
+            geoTag.tagId = tagId
         }
     }
 
     private fun loadNotes(): LiveData<PagedList<Note>> =
         noteTagRefDao.loadNotes().toLiveData(pageSize = 30)
 
-    private fun loadTags(): LiveData<List<Tag>> = tagDao.loadTags()
+    private fun loadTags(): LiveData<List<GeoTag>> = tagDao.loadTags()
 
     companion object {
         private val TAG = this::class.simpleName

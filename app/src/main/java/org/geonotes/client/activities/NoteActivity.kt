@@ -37,8 +37,8 @@ class NoteActivity : AppCompatActivity() {
 
     private fun getNoteLocation(): Location {
         val location: Location = Location(LocationManager.GPS_PROVIDER)
-        location.latitude = 57.0
-        location.longitude = 26.0
+        location.latitude = note.geoTags[0].latitude
+        location.longitude = note.geoTags[0].longitude
         return location
     }
 
@@ -46,7 +46,8 @@ class NoteActivity : AppCompatActivity() {
         startActivity(Intent(this, EditNoteActivity::class.java).apply {
             putExtra("EXTRA_TARGET_NOTE", intent.getStringExtra("EXTRA_TARGET_NOTE"))
             putExtra("EXTRA_IS_EDIT", true)
-            putExtra("EXTRA_LOCATION", getNoteLocation())
+            val location: Location = getNoteLocation()
+            putExtra("EXTRA_LOCATION", location)
         })
         finish()
     }
