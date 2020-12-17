@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoNotes</string>
+    <string name="nothing">Здесь пока ничего нет!</string>
+    <string name="title_input">Название</string>
+    <string name="value_input">Заметка</string>
+    <string name="new_note">Новая заметка</string>
+    <string name="edit_note">Изменение</string>
+    <string name="snackbar_add">Заметка добавлена</string>
+    <string name="snackbar_delete">Заметка удалена</string>
+    <string name="snackbar_undo">Отменить</string>
+    <string name="snackbar_restore">Заметка восстановлена</string>
+</resources>

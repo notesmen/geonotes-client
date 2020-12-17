@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoNotes</string>
+    <string name="nothing">Nothing here yet!</string>
+    <string name="title_input">Title</string>
+    <string name="value_input">Note</string>
+    <string name="new_note">New note</string>
+    <string name="edit_note">Edit note</string>
+    <string name="snackbar_add">Note added</string>
+    <string name="snackbar_delete">Note deleted</string>
+    <string name="snackbar_undo">Undo</string>
+    <string name="snackbar_restore">Note restored</string>
+</resources>
