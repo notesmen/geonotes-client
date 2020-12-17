@@ -17,8 +17,7 @@ import com.here.sdk.search.SearchEngine
 class InteractiveMap(
     private val context: Context,
     private var mapView: MapView,
-    private var currentCoordinates: GeoCoordinates,
-    private var addressLabel: TextView
+    private var currentCoordinates: GeoCoordinates
 ) {
     private lateinit var mapImage: MapImage
     private var currentMarker: MapMarker? = null
@@ -32,7 +31,6 @@ class InteractiveMap(
             }
             setMarker(currentCoordinates)
             setCameraPosition(currentCoordinates)
-            addressLabel.text = getAddress().getAddressLine(0)
         }
     }
 
@@ -63,7 +61,7 @@ class InteractiveMap(
             MapScheme.NORMAL_DAY
         ) { errorCode ->
             if (errorCode == null) {
-                val distanceInMeters = (100).toDouble()
+                val distanceInMeters = (1e7).toDouble()
                 mapView.camera.lookAt(
                     currentCoordinates, distanceInMeters
                 )
