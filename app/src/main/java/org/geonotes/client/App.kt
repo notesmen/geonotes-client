@@ -4,9 +4,8 @@ import android.app.Application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
-import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
+@Suppress("Unused")
 class App : Application() {
     val applicationScope = CoroutineScope(SupervisorJob())
 }

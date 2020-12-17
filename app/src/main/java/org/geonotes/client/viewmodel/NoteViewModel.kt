@@ -32,5 +32,13 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         noteRepository.addNote(note)
     }
 
+    fun updateNote(note: Note) = viewModelScope.launch {
+        noteRepository.updateNote(note)
+    }
+
+    fun deleteNote(note: Note) = viewModelScope.launch {
+        noteRepository.deleteNote(note)
+    }
+
     fun getNotes(): LiveData<PagedList<Note>> = noteRepository.notes
 }

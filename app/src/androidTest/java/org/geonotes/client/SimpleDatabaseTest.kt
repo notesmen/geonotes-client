@@ -56,8 +56,8 @@ class SimpleDatabaseTest {
     @Test
     @Throws(Exception::class)
     fun databaseTest() {
-        val sampleNoteBase = NoteBase("Example note #1", "some text here")
-        val anotherNoteBase = NoteBase("Example note #2", "another text here")
+        val sampleNoteBase = NoteBase("Example note #1", "some text here", 0)
+        val anotherNoteBase = NoteBase("Example note #2", "another text here", 0)
         val sampleTag = Tag("sample-tag")
         val anotherTag = Tag("another-tag")
 
@@ -71,7 +71,7 @@ class SimpleDatabaseTest {
 
         // wait for live data update
         runBlocking {
-            delay(1000L);
+            delay(1000L)
         }
 
         // ensure tagId and noteId were generated

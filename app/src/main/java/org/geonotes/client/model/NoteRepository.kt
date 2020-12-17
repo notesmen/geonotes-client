@@ -34,6 +34,20 @@ class NoteRepository constructor(
         }
     }
 
+    suspend fun updateNote(note: Note) = withContext(Dispatchers.IO) {
+        noteTagRefDao.deleteNoteTagRefs(note.noteBase.noteId)
+        noteBaseDao.update(note.noteBase)
+        for (tag in note.tags) {
+            insertTag(tag)
+            noteTagRefDao.save(NoteBaseTagCrossRef(note.noteBase.noteId, tag.tagId))
+        }
+    }
+
+    suspend fun deleteNote(note: Note) = withContext(Dispatchers.IO) {
+        noteTagRefDao.deleteNoteTagRefs(note.noteBase.noteId)
+        noteBaseDao.delete(note.noteBase)
+    }
+
     private suspend fun insertNoteBase(noteBase: NoteBase) {
         val noteId = noteBaseDao.save(noteBase)
         if (noteId != -1L) {

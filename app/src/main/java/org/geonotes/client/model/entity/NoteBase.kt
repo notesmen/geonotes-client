@@ -1,5 +1,6 @@
 package org.geonotes.client.model.entity
 
+import android.graphics.Color
 import androidx.room.*
 
 
@@ -9,7 +10,9 @@ data class NoteBase(
     var noteId: Long,
     val title: String,
     val text: String,
+    val color: Int,
     val lastChangeTime: Long
 ) {
-    constructor(title: String, text: String) : this(0, title, text, System.nanoTime())
+    constructor(title: String, text: String, color: Int)
+            : this(0, title, text, color, System.nanoTime())
 }
