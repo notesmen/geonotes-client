@@ -35,7 +35,10 @@ class NotesAdapter(private val notes: Array<Note>, private val activity: Activit
         val note: Note = notes[position]
 
         ((holder.cardView[0] as ConstraintLayout)[0] as TextView).text = note.noteBase.title
-        ((holder.cardView[0] as ConstraintLayout)[1] as TextView).text = note.noteBase.text
+        if (note.geoTags.isNotEmpty()) {
+            ((holder.cardView[0] as ConstraintLayout)[1] as TextView).text = note.geoTags[0].name
+        }
+        ((holder.cardView[0] as ConstraintLayout)[2] as TextView).text = note.noteBase.text
 
         holder.cardView.setCardBackgroundColor(notes[position].noteBase.color)
         holder.cardView.setOnClickListener {

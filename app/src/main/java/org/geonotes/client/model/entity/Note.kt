@@ -11,5 +11,5 @@ data class Note(
         entityColumn = "tagId",
         associateBy = Junction(NoteBaseTagCrossRef::class)
     )
-    val tags: List<Tag>
+    var geoTags: List<GeoTag>
 )

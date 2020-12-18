@@ -16,4 +16,5 @@
     <string name="add_location_button" translatable="false">Add location button</string>
     <string name="save_button" translatable="false">Save button</string>
     <string name="edit_button" translatable="false">Edit button</string>
+    <string name="save_location_button_title">Сохранить геолокацию</string>
 </resources>

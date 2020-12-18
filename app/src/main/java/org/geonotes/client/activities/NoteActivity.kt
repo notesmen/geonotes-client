@@ -1,11 +1,14 @@
 package org.geonotes.client.activities
 
 import android.content.Intent
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.LocationServices
 
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
@@ -32,10 +35,19 @@ class NoteActivity : AppCompatActivity() {
         findViewById<MaterialCardView>(R.id.note_cardview).setCardBackgroundColor(note.noteBase.color)
     }
 
+    private fun getNoteLocation(): Location {
+        val location: Location = Location(LocationManager.GPS_PROVIDER)
+        location.latitude = note.geoTags[0].latitude
+        location.longitude = note.geoTags[0].longitude
+        return location
+    }
+
     fun edit(@Suppress("UNUSED_PARAMETER") view: View) {
         startActivity(Intent(this, EditNoteActivity::class.java).apply {
             putExtra("EXTRA_TARGET_NOTE", intent.getStringExtra("EXTRA_TARGET_NOTE"))
             putExtra("EXTRA_IS_EDIT", true)
+            val location: Location = getNoteLocation()
+            putExtra("EXTRA_LOCATION", location)
         })
         finish()
     }

@@ -7,13 +7,13 @@ import androidx.room.OnConflictStrategy.*
 import androidx.room.Query
 
 
-import org.geonotes.client.model.entity.Tag
+import org.geonotes.client.model.entity.GeoTag
 
 @Dao
 interface TagDao {
     @Insert(onConflict = IGNORE)
-    suspend fun save(tag: Tag): Long
+    suspend fun save(geoTag: GeoTag): Long
 
-    @Query("SELECT * from Tag")
-    fun loadTags(): LiveData<List<Tag>>
+    @Query("SELECT * from GeoTag")
+    fun loadTags(): LiveData<List<GeoTag>>
 }

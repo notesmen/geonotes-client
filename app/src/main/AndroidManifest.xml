@@ -2,7 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.geonotes.client">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".App"
         android:icon="@mipmap/ic_launcher"
@@ -11,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.NoteActivity" />
+        <activity android:name=".activities.LocationActivity"/>
         <activity
             android:name=".activities.EditNoteActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -20,5 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data android:name="com.here.sdk.access_key_id" android:value="n2OAnwGeqxzdvAE4KYjzAQ"/>
+        <meta-data android:name="com.here.sdk.access_key_secret" android:value="5UARWtTa6qRvuOEgpZO9g_bFUdLlXTskG8gVBbtK507vKppH-vTdyE3BlZ69XsTdaxu8jZKdnbjs3LX5YMUFPQ"/>
     </application>
 </manifest>
