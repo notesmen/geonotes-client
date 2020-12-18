@@ -63,14 +63,18 @@ class EditNoteActivity : AppCompatActivity() {
             }
         } else {
             val note = Gson().fromJson(intent.getStringExtra("EXTRA_TARGET_NOTE"), Note::class.java)
-            val tag: GeoTag =
-                GeoTag(note.noteBase.noteId, currentAddress, currentCoordinates.latitude, currentCoordinates.longitude)
-            note.geoTags = listOf(tag)
             color = note.noteBase.color
             findViewById<TextView>(R.id.new_note).setText(R.string.edit_note)
             titleInput.setText(note.noteBase.title)
             valueInput.setText(note.noteBase.text)
             saveNoteFab.setOnClickListener {
+                val tag: GeoTag =
+                    GeoTag(
+                        currentAddress,
+                        currentCoordinates.latitude,
+                        currentCoordinates.longitude
+                    )
+                note.geoTags = listOf(tag)
                 if (!validateTitle()) return@setOnClickListener
                 val newNote = Note(
                     NoteBase(
@@ -81,7 +85,6 @@ class EditNoteActivity : AppCompatActivity() {
                         System.nanoTime()
                     ), note.geoTags
                 )
-
                 update(newNote)
             }
         }
